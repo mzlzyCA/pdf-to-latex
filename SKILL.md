@@ -1,40 +1,58 @@
 ---
 name: pdf-to-latex
-version: 0.2.1
-description: >
-  Convert PDF documents to LaTeX source code using MinerU-powered intelligent document parsing. Transform academic papers, research articles, technical documents, and mathematical content from PDF into editable LaTeX/TeX format with accurate formula and structure preservation.
-
-  PDF转LaTeX, 学术论文转换, PDF转TeX源码, 论文格式转换, PDF学术文档转LaTeX, PDF公式转LaTeX.
-
-  Synonyms: PDF to TeX converter, PDF LaTeX extraction, academic paper converter, PDF to LaTeX source, document to LaTeX, PDF TeX generator, paper format converter, PDF to LaTeX transcription, scientific document converter, PDF LaTeX reconstruction, research paper to TeX, PDF to typeset source.
-
-  Use when asked to "convert PDF to LaTeX", "get LaTeX source from this PDF", "turn this paper into TeX", "I need the LaTeX code for this document", "extract LaTeX from PDF", "recreate this PDF in LaTeX", "convert this academic paper to LaTeX format", "can you make a TeX file from this PDF", "I want to edit this paper in LaTeX", "transform this research article to LaTeX".
-
-  Solves problems like: need to edit a published paper in LaTeX, recreating document formatting in TeX is tedious, extracting formulas from PDF to LaTeX manually is error-prone, collaborative editing requires LaTeX source, journal submission needs TeX format but only have PDF.
-
-  Powered by MinerU for accurate structure recognition, formula extraction, and LaTeX code generation.
-tags:
-  - pdf
-  - latex
-  - tex
-  - academic
-  - conversion
-  - formula
-  - research
-  - mineru
-  - paper
-  - typesetting
-  - scientific
-  - document-conversion
+description: "PDF to LaTeX - convert PDF documents (especially academic papers) to LaTeX format using MinerU. Use for re-editing or re-typesetting PDFs in LaTeX."
+homepage: https://mineru.net
+metadata: {"openclaw": {"emoji": "📄", "requires": {"bins": ["mineru-open-api"], "env": ["MINERU_TOKEN"]}, "primaryEnv": "MINERU_TOKEN", "install": [{"id": "npm", "kind": "node", "package": "mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via npm"}, {"id": "go", "kind": "go", "package": "github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via go install", "os": ["darwin", "linux"]}]}}
 ---
 
-# PDF To LaTeX
+# PDF to LaTeX
 
-Use the MinerU tool to convert PDF documents into LaTeX source code.
+Convert PDF documents to LaTeX format using MinerU. Best suited for academic papers and documents with formulas or complex layouts.
 
-## Instructions
+## Install
 
-1. When the user provides a PDF file, use the mineru tool to parse the document and generate LaTeX source code.
-2. Preserve document structure: sections, subsections, figures, tables, equations, references.
-3. If the mineru tool encounters an error, report it clearly and suggest alternatives (check file path, ensure valid PDF, try specific pages).
-4. Handle edge cases: complex multi-column layouts, heavy mathematical notation, embedded fonts, scanned PDFs.
+```bash
+npm install -g mineru-open-api
+# or via Go (macOS/Linux):
+go install github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api@latest
+```
+
+## Quick Start
+
+```bash
+# Convert PDF to LaTeX (requires token)
+mineru-open-api extract paper.pdf -f latex -o ./out/
+
+# With VLM model for better accuracy on complex layouts
+mineru-open-api extract paper.pdf -f latex --model vlm -o ./out/
+
+# From arXiv URL
+mineru-open-api extract https://arxiv.org/pdf/2309.10918 -f latex -o ./out/
+```
+
+## Authentication
+
+Token required:
+
+```bash
+mineru-open-api auth             # Interactive token setup
+export MINERU_TOKEN="your-token" # Or via environment variable
+```
+
+Create token at: https://mineru.net/apiManage/token
+
+## Capabilities
+
+- Supported input: .pdf (local file or URL)
+- Output format: LaTeX (`-f latex`)
+- LaTeX output requires `extract` with token — not available in `flash-extract`
+- Use `--model vlm` for papers with complex math, tables, or multi-column layouts
+- Language hint with `--language` (default: `ch`, use `en` for English)
+
+## Notes
+
+- LaTeX output (`-f latex`) is only available via `extract` with token
+- `--model vlm` gives higher accuracy but may have rare hallucination risk; use `pipeline` for guaranteed fidelity
+- Output goes to stdout by default; use `-o <dir>` to save to a file
+- All progress/status messages go to stderr; document content goes to stdout
+- MinerU is open-source by OpenDataLab (Shanghai AI Lab): https://github.com/opendatalab/MinerU
