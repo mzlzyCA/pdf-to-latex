@@ -1,6 +1,6 @@
 ---
 name: pdf-to-latex
-version: 0.2.0
+version: 0.2.1
 description: >
   Convert PDF documents to LaTeX source code using MinerU-powered intelligent document parsing. Transform academic papers, research articles, technical documents, and mathematical content from PDF into editable LaTeX/TeX format with accurate formula and structure preservation.
 
